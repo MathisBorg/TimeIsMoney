@@ -40,5 +40,16 @@
     </array>
     <key>NSFamilyControlsUsageDescription</key>
     <string>TimeIsMoney a besoin d'accéder à Screen Time pour suivre ton utilisation et appliquer des limites.</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>timeismoney</string>
+            </array>
+            <key>CFBundleURLName</key>
+            <string>com.mathisligout.timeismoney</string>
+        </dict>
+    </array>
 </dict>
 </plist>

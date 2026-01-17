@@ -9,11 +9,12 @@ import DeviceActivity
 import ManagedSettings
 import FamilyControls
 import Foundation
+import UserNotifications
 
-/// Extension qui surveille l'activité et déclenche les blocages
+/// Extension qui surveille l'activite et declenche les blocages
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
 
-    // App Group pour lire les limites sauvegardées
+    // App Group pour lire les limites sauvegardees
     private let appGroupID = "group.com.mathisligout.timeismoney"
     private var sharedDefaults: UserDefaults? {
         UserDefaults(suiteName: appGroupID)
@@ -28,8 +29,8 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
 
     override func intervalDidEnd(for activity: DeviceActivityName) {
         super.intervalDidEnd(for: activity)
-        // Nettoyer les shields à la fin de la journée
-        // IMPORTANT: Utiliser le store par défaut pour que ShieldActionDelegate soit invoqué
+        // Nettoyer les shields a la fin de la journee
+        // IMPORTANT: Utiliser le store par defaut pour que ShieldActionDelegate soit invoque
         let store = ManagedSettingsStore()
         store.shield.applications = nil
         store.shield.applicationCategories = nil
@@ -38,7 +39,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
 
     // MARK: - Event Callbacks
 
-    /// Appelé quand un événement (limite atteinte) se déclenche
+    /// Appele quand un evenement (limite atteinte) se declenche
     override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
         super.eventDidReachThreshold(event, activity: activity)
 
@@ -51,12 +52,38 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         sharedDefaults?.set(activity.rawValue, forKey: "activeShieldStoreName")
         sharedDefaults?.synchronize()
 
-        // IMPORTANT: Utiliser le store par défaut (non-nommé) pour que ShieldActionDelegate soit invoqué
-        // Les stores nommés ne déclenchent pas correctement ShieldActionDelegate
+        // IMPORTANT: Utiliser le store par defaut (non-nomme) pour que ShieldActionDelegate soit invoque
+        // Les stores nommes ne declenchent pas correctement ShieldActionDelegate
         let store = ManagedSettingsStore()
         store.shield.applications = limit.selection.applicationTokens
         store.shield.applicationCategories = .specific(limit.selection.categoryTokens)
         store.shield.webDomains = limit.selection.webDomainTokens
+
+        // Envoyer une notification locale pour permettre le deblocage
+        sendUnlockNotification()
+    }
+
+    // MARK: - Notification
+
+    private func sendUnlockNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Temps ecoule"
+        content.body = "Appuyez pour ajouter du temps"
+        content.sound = .default
+        // Deep link vers l'app pour debloquer
+        content.userInfo = ["deepLink": "timeismoney://unlock"]
+
+        let request = UNNotificationRequest(
+            identifier: "unlock-\(UUID().uuidString)",
+            content: content,
+            trigger: nil // Immediate
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Erreur notification: \(error)")
+            }
+        }
     }
 
     override func eventWillReachThresholdWarning(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
