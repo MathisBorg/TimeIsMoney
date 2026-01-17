@@ -6,24 +6,30 @@
 import SwiftUI
 import UserNotifications
 
+// MARK: - Main App
+
 @main
 struct TimeIsMoneyApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @StateObject private var walletManager = WalletManager.shared
     @StateObject private var limitsManager = LimitsManager()
+    @State private var showQuickUnlock = false
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(walletManager)
                 .environmentObject(limitsManager)
-                .fullScreenCover(isPresented: $appDelegate.showQuickUnlock) {
+                .fullScreenCover(isPresented: $showQuickUnlock) {
                     QuickUnlockView()
                         .environmentObject(walletManager)
                         .environmentObject(limitsManager)
                 }
                 .onOpenURL { url in
                     handleDeepLink(url)
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .showQuickUnlock)) { _ in
+                    showQuickUnlock = true
                 }
         }
     }
@@ -33,15 +39,20 @@ struct TimeIsMoneyApp: App {
         guard url.scheme == "timeismoney" else { return }
 
         if url.host == "unlock" {
-            appDelegate.showQuickUnlock = true
+            showQuickUnlock = true
         }
     }
 }
 
+// MARK: - Notification Name
+
+extension Notification.Name {
+    static let showQuickUnlock = Notification.Name("showQuickUnlock")
+}
+
 // MARK: - App Delegate pour gerer les notifications
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, ObservableObject {
-    @Published var showQuickUnlock = false
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Configurer le delegate des notifications
@@ -64,7 +75,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         // Verifier si c'est un deep link pour debloquer
         if let deepLink = userInfo["deepLink"] as? String, deepLink == "timeismoney://unlock" {
             DispatchQueue.main.async {
-                self.showQuickUnlock = true
+                NotificationCenter.default.post(name: .showQuickUnlock, object: nil)
             }
         }
 
