@@ -1,0 +1,109 @@
+name: TimeIsMoney
+options:
+  bundleIdPrefix: com.mathisligout.timeismoney
+  deploymentTarget:
+    iOS: "26.0"
+  developmentLanguage: fr
+
+settings:
+  base:
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  TimeIsMoney:
+    type: application
+    platform: iOS
+    sources:
+      - path: TimeIsMoney
+        excludes:
+          - "**/*.entitlements"
+    settings:
+      base:
+        INFOPLIST_FILE: TimeIsMoney/Info.plist
+        CODE_SIGN_ENTITLEMENTS: TimeIsMoney/TimeIsMoney.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.mathisligout.timeismoney
+    dependencies:
+      - target: DeviceActivityMonitor
+        embed: true
+      - target: ShieldConfiguration
+        embed: true
+      - target: ShieldAction
+        embed: true
+    entitlements:
+      path: TimeIsMoney/TimeIsMoney.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+        com.apple.security.application-groups:
+          - group.com.mathisligout.timeismoney
+
+  DeviceActivityMonitor:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: DeviceActivityMonitor
+        excludes:
+          - "**/*.entitlements"
+    settings:
+      base:
+        INFOPLIST_FILE: DeviceActivityMonitor/Info.plist
+        CODE_SIGN_ENTITLEMENTS: DeviceActivityMonitor/DeviceActivityMonitor.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.mathisligout.timeismoney.DeviceActivityMonitor
+    entitlements:
+      path: DeviceActivityMonitor/DeviceActivityMonitor.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+        com.apple.security.application-groups:
+          - group.com.mathisligout.timeismoney
+
+  ShieldConfiguration:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ShieldConfiguration
+        excludes:
+          - "**/*.entitlements"
+    settings:
+      base:
+        INFOPLIST_FILE: ShieldConfiguration/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ShieldConfiguration/ShieldConfiguration.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.mathisligout.timeismoney.ShieldConfiguration
+    entitlements:
+      path: ShieldConfiguration/ShieldConfiguration.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+        com.apple.security.application-groups:
+          - group.com.mathisligout.timeismoney
+
+  ShieldAction:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: ShieldAction
+        excludes:
+          - "**/*.entitlements"
+    settings:
+      base:
+        INFOPLIST_FILE: ShieldAction/Info.plist
+        CODE_SIGN_ENTITLEMENTS: ShieldAction/ShieldAction.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.mathisligout.timeismoney.ShieldAction
+    entitlements:
+      path: ShieldAction/ShieldAction.entitlements
+      properties:
+        com.apple.developer.family-controls: true
+        com.apple.security.application-groups:
+          - group.com.mathisligout.timeismoney
+
+schemes:
+  TimeIsMoney:
+    build:
+      targets:
+        TimeIsMoney: all
+        DeviceActivityMonitor: all
+        ShieldConfiguration: all
+        ShieldAction: all
+    run:
+      config: Debug
+    profile:
+      config: Release
+    archive:
+      config: Release
