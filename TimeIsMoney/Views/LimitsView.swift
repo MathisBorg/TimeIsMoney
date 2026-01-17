@@ -138,10 +138,11 @@ struct AddLimitView: View {
     @Environment(\.dismiss) var dismiss
 
     @State private var selection = FamilyActivitySelection()
-    @State private var timeLimitMinutes: Int = 30
+    @State private var timeLimitMinutes: Int = 15
     @State private var isShowingPicker = false
 
-    private let timeOptions = [5, 10, 15, 20, 30, 45, 60, 90, 120]
+    // Granularite de 1 minute jusqu'a 60 minutes
+    private let timeOptions = Array(1...60)
 
     var body: some View {
         NavigationStack {
@@ -168,13 +169,14 @@ struct AddLimitView: View {
                     .foregroundStyle(.primary)
                 }
 
-                Section("Time Before Blocking") {
-                    Picker("Duration", selection: $timeLimitMinutes) {
+                Section("Temps avant blocage") {
+                    Picker("Duree", selection: $timeLimitMinutes) {
                         ForEach(timeOptions, id: \.self) { minutes in
-                            Text(formatMinutes(minutes)).tag(minutes)
+                            Text("\(minutes) min").tag(minutes)
                         }
                     }
                     .pickerStyle(.wheel)
+                    .frame(height: 150)
                 }
             }
             .navigationTitle("New Limit")
