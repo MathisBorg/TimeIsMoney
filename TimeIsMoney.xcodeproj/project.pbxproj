@@ -13,6 +13,7 @@
 		1C96AB66E6DE9C0E3CBC344B /* WalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98106C4ECE63DF861C39850 /* WalletManager.swift */; };
 		2B116999159C94B8D5113D90 /* TimeIsMoneyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A758824307FD22B57987213E /* TimeIsMoneyApp.swift */; };
 		3DA59311A23D912D7F3B2596 /* UnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CDD0238B695DC3476DD521E /* UnlockView.swift */; };
+		QUICKUNLOCK001 /* QuickUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = QUICKUNLOCK002 /* QuickUnlockView.swift */; };
 		49A39557AABA8B73AC619232 /* ShieldConfiguration.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DBED612B6EC6AF487F0AE735 /* ShieldConfiguration.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		6CF4AA5050A2DD74E4BAB49A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF126A44D5BD66F3043B56C6 /* ContentView.swift */; };
 		6EBEB12F1AF92CC5B5B0DF05 /* LimitsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D63CC419560FC5BCF1628F4 /* LimitsManager.swift */; };
@@ -73,6 +74,7 @@
 		3316C71A0637EEB545E0708E /* TimeIsMoney.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeIsMoney.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		42178987F65CB4E2634E0DD7 /* DeviceActivityMonitor.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitor.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CDD0238B695DC3476DD521E /* UnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockView.swift; sourceTree = "<group>"; };
+		QUICKUNLOCK002 /* QuickUnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickUnlockView.swift; sourceTree = "<group>"; };
 		88EE8FB805791F70F05CFC91 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D63CC419560FC5BCF1628F4 /* LimitsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitsManager.swift; sourceTree = "<group>"; };
 		99248FC98BDAE1A8C2B76328 /* ShieldConfigurationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShieldConfigurationExtension.swift; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				CE6CAEA00199A25007182EEA /* LimitsView.swift */,
 				E7163D8C3A9A1CD9CCADF52E /* ProfileView.swift */,
 				5CDD0238B695DC3476DD521E /* UnlockView.swift */,
+				QUICKUNLOCK002 /* QuickUnlockView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				EC0A2CDB8C22821DCEA9D1C7 /* ProfileView.swift in Sources */,
 				2B116999159C94B8D5113D90 /* TimeIsMoneyApp.swift in Sources */,
 				3DA59311A23D912D7F3B2596 /* UnlockView.swift in Sources */,
+				QUICKUNLOCK001 /* QuickUnlockView.swift in Sources */,
 				1C96AB66E6DE9C0E3CBC344B /* WalletManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
