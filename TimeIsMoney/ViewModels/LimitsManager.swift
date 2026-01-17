@@ -10,6 +10,7 @@ import FamilyControls
 import DeviceActivity
 import ManagedSettings
 import Combine
+import UserNotifications
 
 @MainActor
 class LimitsManager: ObservableObject {
@@ -123,6 +124,31 @@ class LimitsManager: ObservableObject {
 
         // Appliquer aux sites web
         store.shield.webDomains = limit.selection.webDomainTokens
+
+        // Envoyer une notification pour permettre le deblocage
+        sendUnlockNotification()
+    }
+
+    // MARK: - Notification
+
+    private func sendUnlockNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Temps ecoule"
+        content.body = "Appuyez ici pour ajouter du temps"
+        content.sound = .default
+        content.userInfo = ["deepLink": "timeismoney://unlock"]
+
+        let request = UNNotificationRequest(
+            identifier: "unlock-\(UUID().uuidString)",
+            content: content,
+            trigger: nil // Immediate
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Erreur notification: \(error)")
+            }
+        }
     }
 
     /// Retire le shield d'une limite
